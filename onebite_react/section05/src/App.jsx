@@ -1,10 +1,10 @@
 import './App.css';
-import Register from'./components/Register_ref';
+import HookExam from'./components/HookExam';
 
 const App = () => {
   return (
     <>
-      <Register />
+      <HookExam />
     </>
   )
 }
