@@ -24,23 +24,7 @@ const List = ({ todos, onUpdate, onUpdateAll, isAllCompleted, onDelete }) => {
   };
 
   const filteredTodos = getFilteredData();
-  // 검색기능>
-
-  // <메모이제이셔션 함수 추가
-  // filter에서 반복적으로 호출되는 함수를 메모이제이션 함수로 만들어 준다.
-  const getAnalyzedData = () => {
-    console.log("getAnalyzedData 호출");
-
-    const totalCount = todos.length;
-    const doneCount = todos.filter(todo => todo.isDone).length;
-    const notDoneCount = totalCount - doneCount;
-    return {
-      totalCount,
-      doneCount,
-      notDoneCount,
-    };
-  };
-
+  // 검색기능
   const { totalCount, doneCount, notDoneCount } = useMemo(() => {
     // 메모이제이션 함수 호출
     console.log("getAnalyzedData 호출");

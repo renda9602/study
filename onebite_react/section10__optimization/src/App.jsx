@@ -1,4 +1,4 @@
-import { useReducer, useRef } from "react";
+import { useCallback, useReducer, useRef } from "react";
 import "./App.css";
 import Editor from "./commonents/Editor";
 import Header from "./commonents/Header";
@@ -75,16 +75,16 @@ function App() {
   };
 
   // <체크박스 선택 해제 보내는 방법
-  const onUpdate = targetId => {
+  const onUpdate = useCallback(targetId => {
     dispatch({
       type: "UPDATE",
       targetId: targetId,
     });
-  };
+  }, []);
   // 체크박스 선택 해제 보내는 방법>
 
   // <삭제하기 버튼 설정 방법
-  const onDelete = targetId => {
+  const onDelete = useCallback(targetId => {
     // 인수 : totos 배열에서 targetId 와 일치하는 id를 갖는 요소만!! 삭제하는 새로운 배열이 필요.
     // alert("삭제할까요?");
     if (window.confirm("삭제할까요?"))
@@ -92,7 +92,7 @@ function App() {
         type: "DELETE",
         targetId: targetId,
       });
-  };
+  }, []);
   // 삭제하기 버튼 설정 방법>
 
   return (
