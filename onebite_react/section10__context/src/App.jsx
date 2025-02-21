@@ -1,4 +1,4 @@
-import { createContext, useCallback, useReducer, useRef } from "react";
+import { createContext, useCallback, useMemo, useReducer, useRef } from "react";
 import "./App.css";
 import Editor from "./commonents/Editor";
 import Header from "./commonents/Header";
@@ -46,14 +46,15 @@ function reducer(state, action) {
 }
 
 // 컨텍스트 생성 (프로바이더)
-export const TodoContext = createContext();
+export const TodoStateContext = createContext(); // 변화할 값을 저장할 곳
+export const TodoDispatchContext = createContext(); // 변화하지 않을 값을 저장할 곳
 
 function App() {
   const [todos, dispatch] = useReducer(reducer, mocData);
   const idRef = useRef(3);
 
   // <인풋에 입력된 내용을 보내는 방법
-  const onCreate = content => {
+  const onCreate = useCallback(content => {
     dispatch({
       type: "CREATE",
       data: {
@@ -63,7 +64,7 @@ function App() {
         date: new Date().getTime(),
       },
     });
-  };
+  });
   // 인풋에 입력된 내용을 보내는 방법>
 
   // <체크박스 선택 해제 보내는 방법
@@ -87,13 +88,23 @@ function App() {
   }, []);
   // 삭제하기 버튼 설정 방법>
 
+  const memoizedDispatch = useMemo(() => {
+    return {
+      onCreate,
+      onUpdate,
+      onDelete,
+    };
+  }, []);
+
   return (
     <div className="App">
-      <TodoContext.Provider value={{ todos, onCreate, onUpdate, onDelete }}>
-        <Header />
-        <Editor />
-        <List />
-      </TodoContext.Provider>
+      <Header />
+      <TodoStateContext.Provider value={todos}>
+        <TodoDispatchContext.Provider value={memoizedDispatch}>
+          <Editor />
+          <List />
+        </TodoDispatchContext.Provider>
+      </TodoStateContext.Provider>
     </div>
   );
 }

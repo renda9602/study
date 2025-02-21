@@ -1,14 +1,14 @@
 import { useContext, useMemo, useState } from "react";
-import { TodoContext } from "../App";
+import { TodoStateContext } from "../App";
 import "./List.css";
 import TodoItem from "./TodoItem";
 
 const List = () => {
-  const { todos } = useContext(TodoContext);
+  const todos = useContext(TodoStateContext);
 
   const [search, setSearch] = useState("");
 
-  const onchangeSearch = e => {
+  const onChangeSearch = e => {
     // 매개변수로 setSearch 를 받아와서 전달한다.
     setSearch(e.target.value);
   };
@@ -23,7 +23,9 @@ const List = () => {
     // true/false 로 반환한다.
     // 현재 todo의 컨텐츠에서 search 값을 찾는것.
     // (todo) => todo.content.includes(search);
-    return todos.filter(todo => todo.content.toLowerCase().includes(search));
+    return todos.filter(todo =>
+      todo.content.toLowerCase().includes(search.toLowerCase())
+    );
   };
 
   const filteredTodos = getFilteredData();
@@ -47,7 +49,7 @@ const List = () => {
 
   return (
     <div className="List">
-      <h4>Todo List 📍</h4>
+      <h4>Todo List 🌱</h4>
       <div>
         <div>total : {totalCount}</div>
         <div>done: {doneCount}</div>
@@ -55,8 +57,7 @@ const List = () => {
       </div>
       <input
         value={search}
-        onChange={onchangeSearch}
-        type="text"
+        onChange={onChangeSearch}
         placeholder="검색어를 입력하세요"
       />
       <div className="Todos_wrapper">
@@ -64,7 +65,7 @@ const List = () => {
         {filteredTodos.map(todo => {
           // return <div>{todo.content}</div>;
           // 모든 리스트에는 key값이 반드시 필요하다. key={todo.id}
-          return <TodoItem onChange={onchangeSearch} key={todo.id} {...todo} />;
+          return <TodoItem key={todo.id} {...todo} />;
         })}
       </div>
     </div>

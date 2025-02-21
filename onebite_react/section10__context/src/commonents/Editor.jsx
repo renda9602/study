@@ -1,12 +1,12 @@
 import { useContext, useRef, useState } from "react";
-import { TodoContext } from "../App";
+import { TodoDispatchContext } from "../App";
 import "./Editor.css";
 
 const Editor = () => {
-  const { onCreate } = useContext(TodoContext);
+  const { onCreate } = useContext(TodoDispatchContext);
 
   const [content, setContent] = useState("");
-  const contentRef = useRef();
+  const inputRef = useRef();
 
   const onChangeContent = e => {
     setContent(e.target.value);
@@ -21,7 +21,7 @@ const Editor = () => {
   const onSubmit = () => {
     if (content === "") {
       // content 가 비었을때 포커스가 되도로 해
-      contentRef.current.focus();
+      inputRef.current.focus();
       return;
     }
 
@@ -32,10 +32,10 @@ const Editor = () => {
   return (
     <div className="Editor">
       <input
-        ref={contentRef}
+        ref={inputRef}
         value={content}
-        onKeyDown={onKeydown}
         onChange={onChangeContent}
+        onKeyDown={onKeydown}
         placeholder="새로운todo..."
       />
       <button onClick={onSubmit}>추가</button>
