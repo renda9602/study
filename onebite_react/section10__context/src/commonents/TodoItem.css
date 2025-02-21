@@ -27,3 +27,7 @@
   border-radius: 5px;
   padding: 5px;
 }
+
+.Todos_wrapper .checkAll {
+  text-align: right;
+}

@@ -1,12 +1,19 @@
 import { useContext, useMemo, useState } from "react";
-import { TodoStateContext } from "../App";
+import { TodoDispatchContext, TodoStateContext } from "../App";
 import "./List.css";
 import TodoItem from "./TodoItem";
 
 const List = () => {
   const todos = useContext(TodoStateContext);
+  const { onUpdateAll, isAllCompleted } = useContext(TodoDispatchContext);
 
   const [search, setSearch] = useState("");
+
+  const onChangeCheckbox = () => {
+    // 전체 체크박스를 토글하면 리스트도 모두 토글 삼항연산자 사용
+    const newStatus = !isAllCompleted ? false : true;
+    onUpdateAll(newStatus);
+  };
 
   const onChangeSearch = e => {
     // 매개변수로 setSearch 를 받아와서 전달한다.
@@ -61,6 +68,12 @@ const List = () => {
         placeholder="검색어를 입력하세요"
       />
       <div className="Todos_wrapper">
+        <div className="checkAll">
+          <label>
+            <input onChange={onChangeCheckbox} type="checkbox" />
+            전체선택
+          </label>
+        </div>
         {/* todos 의 데이터를 받아와서 map 로 뿌려준다  */}
         {filteredTodos.map(todo => {
           // return <div>{todo.content}</div>;

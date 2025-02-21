@@ -26,7 +26,7 @@ const Editor = () => {
     }
 
     onCreate(content); // content 를 입력하면, 호출해
-    setContent(""); //초기화 해
+    setContent(""); //초기화 시키기
   };
 
   return (

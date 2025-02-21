@@ -35,11 +35,11 @@ function reducer(state, action) {
       );
     case "DELETE":
       return state.filter(item => item.id !== action.targetId);
-    // case "UPDATE_ALL":
-    //   return state.map(item => ({
-    //     ...item,
-    //     isDone: action.isAllCompleted,
-    //   }));
+    case "UPDATE_ALL":
+      return state.map(item => ({
+        ...item,
+        isDone: action.isAllCompleted,
+      }));
     default:
       return state;
   }
@@ -88,11 +88,25 @@ function App() {
   }, []);
   // 삭제하기 버튼 설정 방법>
 
+  // 모든 항목이 선택되었는지 확인하는 방법
+  const isAllCompleted = todos.every(item => item.isDone);
+  // 모든 항목이 선택되었는지 확인하는 방법>
+
+  // 모든 항목을 선택하거나 해제하는 방법
+  const onUpdateAll = useCallback(isAllCompleted => {
+    dispatch({
+      type: "UPDATE_ALL",
+      isAllCompleted: !isAllCompleted,
+    });
+  }, []);
+
   const memoizedDispatch = useMemo(() => {
     return {
       onCreate,
       onUpdate,
       onDelete,
+      onUpdateAll,
+      isAllCompleted,
     };
   }, []);
 
