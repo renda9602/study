@@ -1,0 +1,53 @@
+.DirayItem {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 15px 0;
+  border-bottom: 1px solid rgb(236, 236, 236);
+}
+
+.DirayItem .img_section {
+  min-width: 120px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.DirayItem .img_section1 {
+  background-color: rgb(100, 201, 100);
+}
+
+.DirayItem .img_section2 {
+  background-color: rgb(157, 215, 114);
+}
+
+.DirayItem .img_section3 {
+  background-color: rgb(253, 206, 23);
+}
+
+.DirayItem .img_section4 {
+  background-color: rgb(253, 132, 70);
+}
+
+.DirayItem .img_section5 {
+  background-color: rgb(253, 86, 95);
+}
+
+.DirayItem .info_section {
+  flex: 1;
+  cursor: pointer;
+}
+
+.DirayItem .info_section .created_date {
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.DirayItem .info_section .content {
+  font-size: 18px;
+}
+.DirayItem .button_section {
+  min-width: 70px;
+}
