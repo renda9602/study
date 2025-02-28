@@ -1,13 +1,14 @@
-import "./App.css";
-
+import './App.css';
+// 컨텍스트 생성
+import { createContext, useReducer, useRef } from 'react';
 // 라우팅 설정
-import { createContext, useReducer, useRef } from "react";
-import { Route, Routes } from "react-router-dom";
-import Diary from "./pages/Diary";
-import Edit from "./pages/Edit";
-import Home from "./pages/Home";
-import New from "./pages/New";
-import Notfound from "./pages/NotFound";
+import { Route, Routes } from 'react-router-dom';
+// 페이지 컴포넌트
+import Diary from './pages/Diary';
+import Edit from './pages/Edit';
+import Home from './pages/Home';
+import New from './pages/New';
+import Notfound from './pages/NotFound';
 
 //Header
 //button
@@ -21,33 +22,35 @@ import Notfound from "./pages/NotFound";
 const mockData = [
   {
     id: 1, // 일기 고유 아이디
-    createdDate: new Date("2025-02-27").getTime(), // 작성 시간
+    createdDate: new Date('2025-02-27').getTime(), // 작성 시간
     emotionId: 1, // 감정 아이디
-    content: "오늘의 일기 1번", // 일기 내용
+    content: '오늘의 일기 1번', // 일기 내용
   },
   {
     id: 2,
-    createdDate: new Date("2025-02-26").getTime(),
+    createdDate: new Date('2025-02-26').getTime(),
     emotionId: 2,
-    content: "오늘의 일기 2번",
+    content: '오늘의 일기 2번',
   },
   {
     id: 3,
-    createdDate: new Date("2025-01-11").getTime(),
+    createdDate: new Date('2025-01-11').getTime(),
     emotionId: 3,
-    content: "오늘의 일기 3번",
+    content: '오늘의 일기 3번',
   },
 ];
 
+// 리듀서 함수 정의 (리듀서 함수는 상태와 액션을 받아 새로운 상태를 반환)
 function reducer(state, action) {
+  // 액션 타입에 따라 상태 업데이트
   switch (action.type) {
-    case "CREATE":
+    case 'CREATE':
       return [action.data, ...state];
-    case "UPDATE":
+    case 'UPDATE':
       return state.map(item =>
         String(item.id) === String(action.data.id) ? action.data : item
       );
-    case "DELETE":
+    case 'DELETE':
       return state.filter(item => String(item.id) !== String(action.data));
     default:
       return state;
@@ -59,14 +62,16 @@ export const DiaryStateContext = createContext();
 export const DiaryDispatchContext = createContext();
 
 function App() {
+  // 일기 데이터 관리
   const [data, dispatch] = useReducer(reducer, mockData);
-  const idRef = useRef(4); // 새로운 ID추가를 위해 useRef 를 생성
-
+  // 새로운 ID추가를 위해 useRef 를 생성
+  const idRef = useRef(4);
   //
   // 새로운 일기 추가
   const onCreate = (createdDate, emotionId, content) => {
+    //  새로운 일기 데이터 생성
     dispatch({
-      type: "CREATE",
+      type: 'CREATE',
       data: {
         id: idRef.current++, // 새로운 ID추가
         createdDate,
@@ -78,8 +83,9 @@ function App() {
 
   // 기존 일기 수정
   const onUdate = (id, createdDate, emotionId, content) => {
+    // 수정할 데이터 생성
     dispatch({
-      type: "UPDATE",
+      type: 'UPDATE',
       data: {
         id,
         createdDate,
@@ -91,14 +97,16 @@ function App() {
 
   // 기존 일기 삭제
   const onDelete = id => {
+    // 삭제할 데이터 생성
     dispatch({
-      type: "DELETE",
+      type: 'DELETE',
       data: id,
     });
   };
 
   return (
     <>
+      {/* // 데이터 전달 */}
       <DiaryStateContext.Provider value={data}>
         <DiaryDispatchContext.Provider
           value={{
@@ -107,6 +115,7 @@ function App() {
             onDelete,
           }}
         >
+          {/* // 라우트 설정 및 컴포넌트 연결  */}
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/new" element={<New />} />
