@@ -2,9 +2,9 @@
 // 컨텍스트는 애플리케이션 전체에서 데이터를 공유하는 데 사용됩니다.
 import { useContext, useState } from 'react';
 import { DiaryStateContext } from '../App';
-import Button from '../commonents/Button';
-import DiaryList from '../commonents/DirayList';
-import Header from '../commonents/Header';
+import Button from '../components/Button';
+import DiaryList from '../components/DirayList';
+import Header from '../components/Header';
 
 // 월별 데이터 필터링 (시작 시간과 끝 시간 사이의 데이터만 필터링)
 const getMonthlyData = (pivotDate, data) => {

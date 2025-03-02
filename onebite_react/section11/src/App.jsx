@@ -22,19 +22,19 @@ import Notfound from './pages/NotFound';
 const mockData = [
   {
     id: 1, // 일기 고유 아이디
-    createdDate: new Date('2025-02-27').getTime(), // 작성 시간
+    createdDate: new Date('2025-03-27').getTime(), // 작성 시간
     emotionId: 1, // 감정 아이디
     content: '오늘의 일기 1번', // 일기 내용
   },
   {
     id: 2,
-    createdDate: new Date('2025-02-26').getTime(),
+    createdDate: new Date('2025-03-26').getTime(),
     emotionId: 2,
     content: '오늘의 일기 2번',
   },
   {
     id: 3,
-    createdDate: new Date('2025-01-11').getTime(),
+    createdDate: new Date('2025-02-11').getTime(),
     emotionId: 3,
     content: '오늘의 일기 3번',
   },
