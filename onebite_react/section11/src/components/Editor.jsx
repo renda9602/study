@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from './Button';
 import './Editor.css';
@@ -42,7 +42,7 @@ const getStringDate = targetDate => {
   return `${year}-${month}-${date}`;
 };
 
-const Editor = ({ onSubmit }) => {
+const Editor = ({ initData, onSubmit }) => {
   // new 페이지에서 Editor 컴포넌트를 사용하면, 새로운 일기를 작성하는 페이지가 되고,
   // edit 페이지에서 Editor 컴포넌트를 사용하면, 기존에 작성된 일기를 수정하는 페이지가 됩니다.
   // 그래서 이 컴포넌트에서 작성된 일기의 내용을 저장하는 함수를 만들어야 합니다.
@@ -76,6 +76,12 @@ const Editor = ({ onSubmit }) => {
   };
 
   const nav = useNavigate();
+
+  useEffect(() => {
+    if (initData) {
+      setInput({ ...initData, craatedDate: new Date(initData.createdData) });
+    }
+  }, [initData]);
 
   return (
     <div className="Editor">

@@ -82,7 +82,7 @@ function App() {
   };
 
   // 기존 일기 수정
-  const onUdate = (id, createdDate, emotionId, content) => {
+  const onUpdate = (id, createdDate, emotionId, content) => {
     // 수정할 데이터 생성
     dispatch({
       type: 'UPDATE',
@@ -111,7 +111,7 @@ function App() {
         <DiaryDispatchContext.Provider
           value={{
             onCreate,
-            onUdate,
+            onUpdate,
             onDelete,
           }}
         >

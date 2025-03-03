@@ -16,7 +16,11 @@ const DirayItem = ({ id, emotionId, createdDate, content }) => {
           nav(`/diary/${id}`);
         }}
       >
-        <img src={getEmotionImg(emotionId)} alt="" />
+        <img
+          src={getEmotionImg(emotionId)}
+          className={!getEmotionImg(emotionId) ? 'noneImg' : ''}
+          alt=""
+        />
       </div>
       <div
         className="info_section"
