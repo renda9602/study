@@ -1,6 +1,6 @@
 import './App.css';
 // 컨텍스트 생성
-import { createContext, useReducer, useRef } from 'react';
+import { createContext, useEffect, useReducer, useRef, useState } from 'react';
 // 라우팅 설정
 import { Route, Routes } from 'react-router-dom';
 // 페이지 컴포넌트
@@ -18,43 +18,42 @@ import Notfound from './pages/NotFound';
 // 2. "/new" : 새로운 일기를 추가하는  New 페이지
 // 3. "/diary" : 일기를 상세히 조회하는 Diary 페이지
 
-//임시데이터
-const mockData = [
-  {
-    id: 1, // 일기 고유 아이디
-    createdDate: new Date('2025-03-27').getTime(), // 작성 시간
-    emotionId: 1, // 감정 아이디
-    content: '오늘의 일기 1번', // 일기 내용
-  },
-  {
-    id: 2,
-    createdDate: new Date('2025-03-26').getTime(),
-    emotionId: 2,
-    content: '오늘의 일기 2번',
-  },
-  {
-    id: 3,
-    createdDate: new Date('2025-02-11').getTime(),
-    emotionId: 3,
-    content: '오늘의 일기 3번',
-  },
-];
-
 // 리듀서 함수 정의 (리듀서 함수는 상태와 액션을 받아 새로운 상태를 반환)
+// 초기 상태와 액션을 받아 새로운 상태를 반환하는 함수
 function reducer(state, action) {
+  // 초기 상태 설정
+  let nextState;
+
   // 액션 타입에 따라 상태 업데이트
   switch (action.type) {
-    case 'CREATE':
-      return [action.data, ...state];
-    case 'UPDATE':
-      return state.map(item =>
+    // 초기화 액션 처리 (로컬 스토리지에서 데이터를 가져와 상태를 초기화)
+    // 로컬 스토리지에서 데이터 가져오기
+    case 'INIT':
+      return action.data;
+
+    case 'CREATE': {
+      // 새로운 데이터 생성
+      nextState = [action.data, ...state];
+      break;
+    }
+    case 'UPDATE': {
+      // 기존 데이터 업데이트
+      nextState = state.map(item =>
         String(item.id) === String(action.data.id) ? action.data : item
       );
-    case 'DELETE':
-      return state.filter(item => String(item.id) !== String(action.data));
+      break;
+    }
+    case 'DELETE': {
+      // 데이터 삭제
+      nextState = state.filter(item => String(item.id) !== String(action.data));
+      break;
+    }
     default:
       return state;
   }
+  // 상태 업데이트 후 로컬 스토리지에 저장 (로컬 스토리지에 저장된 데이터는 브라우저를 닫아도 유지)
+  localStorage.setItem('diary', JSON.stringify(nextState));
+  return nextState;
 }
 
 // context 생성
@@ -62,11 +61,51 @@ export const DiaryStateContext = createContext();
 export const DiaryDispatchContext = createContext();
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+
   // 일기 데이터 관리
-  const [data, dispatch] = useReducer(reducer, mockData);
+  const [data, dispatch] = useReducer(reducer, []);
   // 새로운 ID추가를 위해 useRef 를 생성
-  const idRef = useRef(4);
-  //
+  const idRef = useRef(0);
+
+  // 컴포넌트가 마운트될 때 로컬 스토리지에서 데이터 가져오기
+  useEffect(() => {
+    // 로컬 스토리지에서 데이터 가져오기
+    const storedData = localStorage.getItem('diary');
+    if (!storedData) {
+      // 데이터가 없으면 빈 배열 반환
+      setIsLoading(false);
+      return;
+    }
+    // 데이터가 없으면 빈 배열 반환
+    const parsedData = JSON.parse(storedData);
+    if (!Array.isArray(parsedData)) {
+      // 데이터가 배열이 아니면 빈 배열 반환
+      setIsLoading(false);
+      return;
+    }
+
+    // 데이터가 배열이면 최대 ID 찾기
+    let maxId = 0;
+
+    parsedData.forEach(item => {
+      if (item.id > maxId) {
+        maxId = Number(item.id);
+      }
+    });
+
+    idRef.current = maxId + 1;
+
+    // 초기화 액션 디스패치
+    dispatch({
+      type: 'INIT',
+      data: parsedData,
+    });
+    // 로딩 상태 변경 (로딩 완료)
+    setIsLoading(false);
+  }, []);
+  // 데이터가 있으면 JSON 형식으로 파싱하여 데이터 가져오기
+
   // 새로운 일기 추가
   const onCreate = (createdDate, emotionId, content) => {
     //  새로운 일기 데이터 생성
@@ -103,6 +142,10 @@ function App() {
       data: id,
     });
   };
+
+  if (isLoading) {
+    return <div>데이터 로딩중...</div>;
+  }
 
   return (
     <>

@@ -20,8 +20,8 @@ const Editor = ({ initData, onSubmit }) => {
   });
 
   const onChangeInput = e => {
-    console.log(e.target.name); // 어떤 요소에 입력이 들어왔는지 콘솔에 출력
-    console.log(e.target.value); // 어떤 요소에 입력된값이 들어왔는지 콘솔에 출력
+    // console.log(e.target.name); // 어떤 요소에 입력이 들어왔는지 콘솔에 출력
+    // console.log(e.target.value); // 어떤 요소에 입력된값이 들어왔는지 콘솔에 출력
 
     let name = e.target.name; // 입력된 요소의 name 속성 값을 가져옴
     let value = e.target.value; // 입력된 요소의 value 속성 값을 가져옴
