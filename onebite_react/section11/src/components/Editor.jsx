@@ -1,46 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { emotionList } from '../utill/constants';
+import { getStringedDate } from '../utill/get-stringed-data';
 import Button from './Button';
 import './Editor.css';
 import EmotionItem from './EmotionItem';
-
-const emotionList = [
-  {
-    emotionId: 1,
-    emotionName: '완전 좋음',
-  },
-  {
-    emotionId: 2,
-    emotionName: '완전 좋음',
-  },
-  {
-    emotionId: 3,
-    emotionName: '그럭저럭',
-  },
-  {
-    emotionId: 4,
-    emotionName: '나쁨',
-  },
-  {
-    emotionId: 5,
-    emotionName: '느좋 나쁨',
-  },
-];
-const getStringDate = targetDate => {
-  // 날짜형식 변경 함수
-  let year = targetDate.getFullYear();
-  let month = targetDate.getMonth() + 1;
-  let date = targetDate.getDate();
-
-  // 월 또는 일이 한자리 수일 경우 앞에 0을 붙여주는 코드
-  if (month < 10) {
-    month = `0${month}`;
-  }
-  if (date < 10) {
-    date = `0${date}`;
-  }
-  return `${year}-${month}-${date}`;
-};
 
 const Editor = ({ initData, onSubmit }) => {
   // new 페이지에서 Editor 컴포넌트를 사용하면, 새로운 일기를 작성하는 페이지가 되고,
@@ -90,7 +54,7 @@ const Editor = ({ initData, onSubmit }) => {
         <input
           name="createdDate" // name 속성 값을 설정 하여 입력 요소의 이름을 지정
           onChange={onChangeInput}
-          value={getStringDate(input.createdDate)}
+          value={getStringedDate(input.createdDate)}
           type="date"
         />
       </section>
