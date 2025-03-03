@@ -4,8 +4,13 @@ import { DiaryDispatchContext } from '../App'; // DiaryDispatchContext 컨텍스
 import Button from '../components/Button';
 import Editor from '../components/Editor';
 import Header from '../components/Header';
+import usePageTitle from '../hooks/usePageTitle';
 
 const New = () => {
+  // 페이지 타이틀 설정
+  usePageTitle('새 일기 쓰기');
+
+  // 컨텍스트에서 데이터를 가져옴 (컨텍스트는 컴포넌트 트리 전체에 데이터를 전달하는 방법)
   const { onCreate } = useContext(DiaryDispatchContext); // 컨텍스트에서 onCreate 함수를 가져옴
   const nav = useNavigate();
 

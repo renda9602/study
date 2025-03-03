@@ -8,7 +8,7 @@ import Diary from './pages/Diary';
 import Edit from './pages/Edit';
 import Home from './pages/Home';
 import New from './pages/New';
-import Notfound from './pages/NotFound';
+import Notfound from './pages/Notfound';
 
 //Header
 //button

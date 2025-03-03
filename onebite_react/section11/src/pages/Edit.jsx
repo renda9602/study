@@ -5,6 +5,7 @@ import Button from '../components/Button';
 import Editor from '../components/Editor';
 import Header from '../components/Header';
 import useDiary from '../hooks/useDiary';
+import usePageTitle from '../hooks/usePageTitle';
 
 // 일기 수정 페이지
 const Edit = () => {
@@ -13,6 +14,10 @@ const Edit = () => {
   const { onDelete, onUpdate } = useContext(DiaryDispatchContext); // 컨텍스트에서 onDelete 함수를 가져옴
   const curDiaryItem = useDiary(params.id); // useDiary 커스텀 훅을 사용하여 현재 일기 항목을 가져옴
 
+  // 페이지 타이틀 설정
+  usePageTitle(`${params.id}번 일기 수정`);
+
+  // 일기 수정 함수
   const onClickDelete = () => {
     // 일기 삭제 함수
     if (window.confirm('정말 삭제하시겠습니까? 다시 복구되지 않아요')) {

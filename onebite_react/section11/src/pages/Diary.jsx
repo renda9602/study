@@ -4,6 +4,7 @@ import Button from '../components/Button';
 import Header from '../components/Header';
 import Viewer from '../components/Viewer';
 import useDiary from '../hooks/useDiary';
+import usePageTitle from '../hooks/usePageTitle';
 import { getStringedDate } from '../utill/get-stringed-data';
 
 //  일기 상세 페이지
@@ -12,6 +13,10 @@ const Diary = () => {
   const params = useParams();
   const nav = useNavigate();
   const curDiaryItem = useDiary(params.id);
+
+  // 페이지 타이틀 설정
+  usePageTitle(`${params.id}번 일기`);
+
   if (!curDiaryItem) {
     return <div>...로딩중</div>;
   }
